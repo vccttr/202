@@ -1,0 +1,117 @@
+from random import randint
+#Первая функция принимает строку в виде аргумента и выводит её. Игроку необходимо ввести натуральное число, равное количеству игроков. Если входное данное не будет натуральным числом, то функция возвращает саму себя, то есть создаёт рекурсию с новой строкой.
+
+def number_of_players(launch: str) -> int:
+    print(launch)
+    try:
+        number = int(input())
+        return number
+    except ValueError:
+        return number_of_players("Please enter a natural number")
+
+
+start = number_of_players("Enter the number of players")
+#Вторая функция принимает аргумент в виде натурального числа. Ролью данной функции является составление словаря с именами игроков и выводом. Чтобы облегчить код, будем использовать генератор словарей. Создаём цикл, и с его помощью выводим список игроков.
+
+def player_names(number: int) -> dict:
+    print("Enter player names")
+    list_of_players = {i: input() for i in range(1, number + 1)}
+    print("List of players:")
+
+    for key, value in list_of_players.items():
+        if key == len(list_of_players):
+            print(f"{key}. {value}.")
+        else:
+            print(f"{key}. {value};")
+    return list_of_players
+
+
+players = player_names(start)
+#Последняя функция отвечает уже за саму игру. Функция в виде аргумента принимает строку, словарь игроков и "key", который является необязательным аргументом. Игроку необходимо ввести диапазон чисел для создания случайного числа. Снова создаём обработчик исключений. Это нужно для того, чтобы программа работала по условию n_1 (int) < n_2 (int)
+
+#Последняя часть нашего сценария — цикл, который работает до того момента, пока игроки не угадают число. Игрок угадал — игра завершена.
+
+def game(correction: str, game_players: dict, key=1) -> str:
+    print(correction)
+    try:
+        n_1, n_2 = int(input()), int(input())
+        random_number = randint(n_1, n_2)
+    except ValueError:
+        return game("The first number must be less than the second or the input data must be natural numbers",
+                    game_players)
+    print(f"Your range is from {n_1} to {n_2}")
+    print("The game has begun!")
+
+    while True:
+        try:
+            if key > len(game_players):
+                key = 1
+            print(f"{game_players[key]}, enter a natural number")
+            new_number = int(input())
+            if new_number == random_number:
+                return f"{game_players[key]} won, congratulations!"
+        except ValueError:
+            print("You're missing a move because the number is entered incorrectly")
+        key += 1
+
+
+print(game("Enter 2 numbers to indicate the range", players))
+#Сценарий
+# Guess the number
+# Description: the computer will choose a random number, and the players will have to take turns guessing the number
+from random import randint
+
+
+def number_of_players(launch: str) -> int:
+    print(launch)
+    try:
+        number = int(input())
+        return number
+    except ValueError:
+        return number_of_players("Please enter a natural number")
+
+
+start = number_of_players("Enter the number of players")
+
+
+def player_names(number: int) -> dict:
+    print("Enter player names")
+    list_of_players = {i: input() for i in range(1, number + 1)}
+    print("List of players:")
+
+    for key, value in list_of_players.items():
+        if key == len(list_of_players):
+            print(f"{key}. {value}.")
+        else:
+            print(f"{key}. {value};")
+    return list_of_players
+
+
+players = player_names(start)
+
+
+def game(correction: str, game_players: dict, key=1) -> str:
+    print(correction)
+    try:
+        n_1, n_2 = int(input()), int(input())
+        random_number = randint(n_1, n_2)
+    except ValueError:
+        return game("The first number must be less than the second or the input data must be natural numbers",
+                    game_players)
+    print(f"Your range is from {n_1} to {n_2}")
+    print("The game has begun!")
+
+    while True:
+        try:
+            if key > len(game_players):
+                key = 1
+            print(f"{game_players[key]}, enter a natural number")
+            new_number = int(input())
+            if new_number == random_number:
+                return f"{game_players[key]} won, congratulations!"
+        except ValueError:
+            print("You're missing a move because the number is entered incorrectly")
+        key += 1
+
+
+print(game("Enter 2 numbers to indicate the range", players))
